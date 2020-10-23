@@ -1,0 +1,91 @@
+Name: Nibras Alam and Partner
+ID #: _and _
+CMPUT 275, Winter 2019
+
+Assignment 2: Driving Route Finder Part 2
+***Consulted C++, Arduino, Adafruit GFX Documentation***
+
+Included Files/Directories:
+	-client/
+	-server/
+	-README
+
+CLIENT (client/) -----------------------------------
+
+Files Included in client/:
+	-client.cpp (edited, see notes)
+	-draw_route.cpp (edited)
+	-draw_route.h
+	-serial_handling.cpp (edited)
+	-serial_handling.h (edited)
+	-map_drawing.cpp
+	-map_drawing.h
+	-consts_and_types.h
+	-Makefile
+
+Accesories:
+	-Arduino MEGA 2560
+	-TFT Display
+	-Breadboard
+	-2 Pushbuttons
+	-5 Breakout Wires (Female to Male)
+	-5+ Breakout Wires (Male to Male)
+
+Wiring Instructions:
+	-Arduino GND <M--F> Joystick Pin GND
+	-Arduino 5V <M--F> Joystick Pin 5V
+	-Arduino Pin A8 <M--F> Joystick Pin VRy
+	-Arduino Pin A9 <M--F> Joystick Pin VRx
+	-Arduino Pin 53 <M--F> Joystick Pin SW
+
+	-Arduino GND <M--M> Breadboard Negative Terminal
+	-Arduino Pin 47 <M--M> Pushbutton (Zoom Out) <M--M> Breadboard Negative Rail
+	-Arduino Pin 45 <M--M> Pushbutton (Zoom In) <M--M> Breadboard Negative Rail
+
+	***Attach TFT Display (by lining up the matching pins) AFTER connecting wires***
+
+Notes and Assumptions:
+	-Follows all assumptions from the assignment
+	-Edited client.cpp to match our implementation of draw_route() and display extra status messages
+
+--------------------------------------------------
+
+
+SERVER (server/) ---------------------------------
+
+Files Included in server/:
+	-digraph.cpp
+	-digraph.h
+	-dijkstra.cpp
+	-dijkstra.h
+	-edmonton-roads-2.0.1.txt
+	-heap.h
+	-serialport.cpp
+	-serialport.h
+	-server.cpp (edited from part1)
+	-wdigraph.h
+	-Makefile (edited from part1)
+
+Makefile Targets:
+	- make: Builds objects and executable for the program "server"
+	- make clean: Remove all object files and executables
+	- original part1 targets: dijkstra.o, server.o & digraph.o
+	- added new target for part2: serialport.o
+
+Notes and Assumptions:
+	-Follows all assumptions from the assignment
+
+--------------------------------------------------
+
+Running Instructions:
+		1. Connect the Arduino Mega 2560 (with Display and Joystick Wired) through an A-B style USB cable to the computer
+		2. Ensure the Arduino is using the proper port: /dev/ttyACM0 or - ACM1 ("arduino-port-select" in CML, hit "1" twice)
+		3. Navigate to the client/ directory and enter "make && make upload"
+		4. Ensure "avrdude done. Thank you." is visible at some point
+		5. Navigate to the server/ directory and enter "make && ./server"
+		6. Program Functions:
+			Use joystick to move around the map of Edmonton. Use respective push buttons to zoom in or out.
+
+			To select a starting ("FROM?") location, push the joystick. Next move to desired end ("TO?") location and push the joystick again.
+
+			The Arduino will send the location ("Obtaining route...") to the server which will try to return a path. If a path exists ("Updating map..."), the route will be drawn. If no path exists ("Path DNE... FROM?"), select new points.
